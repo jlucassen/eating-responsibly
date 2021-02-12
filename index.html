@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- metas -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS, then my CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <title>Eating Responsibly</title>
+</head>
+
+<body>
+    <header class="jumbotron">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <h1>Eating Responsibly</h1>
+                    <p>A tool to help calculate the least harmful foods across multiple impacts</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Overview</h3>
+                    <div class="card-body text-center">
+                        <h3>Global food production is a huge task,<br> with various harmful side effects we might want to avoid.</h3>
+                        <h1>•</h1>
+                        <h3>But since we still have to eat, the decision comes down to <br> choosing the least harmful foods we can.</h3>
+                        <h1>•</h1>
+                        <h3>Since different foods affect different issues, this decision relies on <br> assessing how important each of those issues is.</h3>
+                        <h1>•</h1>
+                        <h3>Based on that assessment, we can calculate weighted total impacts<br>and take a key step towards eating responsibly.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Food Impacts & Issue Weights</h3>
+                    <div class="card-body">
+                        
+                        <svg width='100%' height='600' id="results_graph"></svg>
+                        <div class="row">
+                            <div class="col">
+                                <strong>The issues below can each be assigned a "weight"</strong>, or impact score, with higher weights representing greater importance.
+                                For ease of comparison, these weights represent the impact of the entire issue.
+                                If issue A is given twice the score of issue B, that should mean ridding the world of issue A entirely is twice as good as getting rid of issue B entirely. 
+                                Feel free to use any scale you like, as long as it's consistent - the absolute numbers aren't important, only their relative magnitudes.
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                Acidification
+                                <br>
+                                <div style="background-color: #CCCC00; padding: 10px;">
+                                    <input id = "weight-acid-alt" type="text" value="1" oninput="matchInputs('weight-acid-alt', 'weight-acid'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Climate Change
+                                <br>
+                                <div style="background-color: #e41a1c; padding: 10px;">
+                                    <input id = "weight-climate-alt" type="text" value="1" oninput="matchInputs('weight-climate-alt', 'weight-climate'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Eutrophication
+                                <br>
+                                <div style="background-color: #008000; padding: 10px;">
+                                    <input id = "weight-eutro-alt" type="text" value="1" oninput="matchInputs('weight-eutro-alt', 'weight-eutro'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Water Stress
+                                <br>
+                                <div style="background-color: #377eb8; padding: 10px;">
+                                    <input id = "weight-water-alt" type="text" value="1" oninput="matchInputs('weight-water-alt', 'weight-water'); updateResultsGraph();">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                Cows
+                                <br>
+                                <div style="background-color: #8a6942; padding: 10px;">
+                                    <input id = "weight-cows-alt" type="text" value="1" oninput="matchInputs('weight-cows-alt', 'weight-cows'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Chickens
+                                <br>
+                                <div style="background-color: #ec8e00; padding: 10px;">
+                                    <input id = "weight-chicken-alt" type="text" value="1" oninput="matchInputs('weight-chicken-alt', 'weight-chicken'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Fish
+                                <br>
+                                <div style="background-color:#4d0080; padding: 10px;">
+                                    <input id = "weight-fish-alt" type="text" value="1" oninput="matchInputs('weight-fish-alt', 'weight-fish'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Pigs
+                                <br>
+                                <div style="background-color: #a249a5; padding: 10px;">
+                                    <input id = "weight-pigs-alt" type="text" value="1" oninput="matchInputs('weight-pigs-alt', 'weight-pigs'); updateResultsGraph();">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Research Primers - Environmental</h3>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                In this first section are the environmental impacts of food production.
+                                The assignment of weights is the core of this tool, so careful thought and research are important here.
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <ul class="nav nav-tabs nav-fill" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="tab-acid" data-toggle="tab" href="#info-acid" role="tab" aria-controls="info-acid" aria-selected="true">Acidification</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-climate" data-toggle="tab" href="#info-climate" role="tab" aria-controls="info-climate" aria-selected="false">Climate Change</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-eutro" data-toggle="tab" href="#info-eutro" role="tab" aria-controls="info-eutro" aria-selected="false">Eutrophication</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-water" data-toggle="tab" href="#info-water" role="tab" aria-controls="info-water" aria-selected="false">Water Stress</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="info-acid" role="tabpanel" aria-labelledby="tab-acid">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <h3>Acidification Primer</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <strong>What is the issue?</strong>
+                                                <br>
+                                                Acidification, specifically "terrestrial acidification", refers to emissions that make soil more acidic, such as sulfur dioxide (SO<sub>2</sub>).
+                                                One example of terrestrial acidification is acid rain, which is when acidifying emissions first enter the atmosphere and then form acids that rain out.
+                                                However, acidifying byproducts of agriculture can also leach directly into soil.
+                                                These acidifying emissions can also leach into nearby rivers and lakes, affecting those ecosystems as well.
+                                                <br>
+                                                <br>
+                                                <strong>Why does it matter?</strong>
+                                                <br>
+                                                <ul>
+                                                    <li>Changes species composition of affected ecosystems</li>
+                                                    <li>Decreases affected ecosystems' biodiversity, resilience, nutrient cycling, and productivity</li>
+                                                    <li>Damage to historic buildings or monuments made of stone in affected areas</li>
+                                                </ul>
+                                                <strong>What's the scale of the issue?</strong>
+                                                <br>
+                                                Each year, we emit approximately the equivalent of 290 million tons of SO<sub>2</sub>.
+                                                Global food production is responsible for about 32% of total acidifying emissions.
+                                                Threat of global catastrophe or human extinction seems negligible.
+                                                Beyond these basics, the scale is hard to quantify, so individual research and judgement is key.
+                                                <br>
+                                                <br>
+                                                <strong>Sources:</strong>
+                                                <ul>
+                                                    <li><a href="https://science.sciencemag.org/content/360/6392/987" target="_blank">Poore, J., &amp; Nemecek, T. (2018). Reducing food’s environmental impacts through producers and consumers. Science, 360(6392), 987-992. doi:10.1126/science.aaq0216</a></li>
+                                                    <li><a href="https://webcam.srs.fs.fed.us/pollutants/acidification/index.shtml" target="_blank">U. (n.d.). Acidification Impacts. Retrieved January 02, 2021, from https://webcam.srs.fs.fed.us/pollutants/acidification/index.shtml</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="info-climate" role="tabpanel" aria-labelledby="tab-climate">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <h3>Climate Change Primer</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <strong>What is the issue?</strong>
+                                                <br>
+                                                Climate change is caused by emissions that trap the heat radiated by the Earth, shifting the balance of heat input/output towards higher temperatures.
+                                                This is primarily due to carbon dioxide (CO<sub>2</sub>), a gas released by burning fossil fuels, as well as many other processes.
+                                                There are other emissions that have this effect as well, like methane, nitrous oxide, and synthetic fluorinated gases.
+                                                Due to the complexity of Earth's energy systems, this excess heat has many unpredictable effects.
+                                                <br>
+                                                <br>
+                                                <strong>Why does it matter?</strong>
+                                                <br>
+                                                <ul>
+                                                    <li>Increases in temperature</li>
+                                                    <li>Rising sea levels</li>
+                                                    <li>Increases in extreme weather</li>
+                                                    <li>Food and water stress</li>
+                                                    <li>Increases in infectious disease</li>
+                                                    <li>Disruption of ecosystems</li>
+                                                    <li>Risk of unforeseen effects or self-amplifying feedback loops</li>                                            
+                                                </ul>
+                                                <strong>What's the scale of the issue?</strong>
+                                                <br>
+                                                Each year, we emit approximately the equivalent of 52 billion tons of CO<sub>2</sub>.
+                                                Global food production is responsible for about 26% of total climate change emissions.
+                                                Earth's temperature has increased about 1.5 degrees F (0.8 degrees C) over the past century, and is currently projected to rise 2.5-9 F (1.4-5 C) over the next century.
+                                                Sea levels have risen about 8.4 inches (21 cm) since 1880, and are projected to rise 7-23 in (18-58 cm) over the next century.
+                                                Other impacts are also projected to worsen, but the numbers are harder to specify precisely due to model variation.
+                                                Threat of global catastrophe or human extinction seems non-negligible, but varies widely between models.
+                                                <br>
+                                                <br>
+                                                <strong>Sources:</strong>
+                                                <ul>
+                                                    <li><a href="https://science.sciencemag.org/content/360/6392/987" target="_blank">Poore, J., &amp; Nemecek, T. (2018). Reducing food’s environmental impacts through producers and consumers. Science, 360(6392), 987-992. doi:10.1126/science.aaq0216</a></li>
+                                                    <li><a href="https://ourworldindata.org/co2-and-other-greenhouse-gas-emissions" target="_blank">Ritchie, H., &amp; Roser, M. (2017, May 11). CO₂ and Greenhouse Gas Emissions. Retrieved January 09, 2021, from https://ourworldindata.org/co2-and-other-greenhouse-gas-emissions</a></li>
+                                                    <li><a href="https://mitpress.mit.edu/books/what-we-know-about-climate-change-updated-edition" target="_blank">Emanuel, K. A. (2018). What we know about climate change. Cambridge, MA: The MIT Press.</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+                                    <div class="tab-pane fade" id="info-eutro" role="tabpanel" aria-labelledby="tab-eutro">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <h3>Eutrophication Primer</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <strong>What is the issue?</strong>
+                                                <br>
+                                                Eutrophication is caused by emissions that dramatically increase the rate of algae growth in bodies of water.
+                                                This causes "algae blooms", regions in which algae grows so fast it uses up all available oxygen and no other aquatic life can survive.
+                                                This is primarily due to runoff containing nitrate (NO<sub>3</sub>) and phosphate (PO<sub>4</sub>) ions.
+                                                <br>
+                                                <br>
+                                                <strong>Why does it matter?</strong>
+                                                <br>
+                                                <ul>
+                                                    <li>Mass die-off in affected coastal aquatic ecosystems</li>
+                                                    <li>Contamination of affected drinking water sources</li>
+                                                    <li>Detrimental to fishing in affected area</li>
+                                                </ul>
+                                                <strong>What's the scale of the issue?</strong>
+                                                <br>
+                                                Each year, we emit approximately the equivalent of 82 million tons of PO<sub>4</sub>.
+                                                Global food production is responsible for about 78% of total eutrophying emissions.
+                                                Damage from eutrophication in the U.S. alone is estimated to cost about $2.2 billion per year.
+                                                Low-oxygen zones produced by eutrophication affect more than 245,000 square kilometers in over 400 near-shore systems.
+                                                Threat of global catastrophe or human extinction seems negligible.
+                                                <br>
+                                                <br>
+                                                <strong>Sources:</strong>
+                                                <ul>
+                                                    <li><a href="https://science.sciencemag.org/content/360/6392/987" target="_blank">Poore, J., &amp; Nemecek, T. (2018). Reducing food’s environmental impacts through producers and consumers. Science, 360(6392), 987-992. doi:10.1126/science.aaq0216</a></li>
+                                                    <li><a href="https://www.nature.com/scitable/knowledge/library/eutrophication-causes-consequences-and-controls-in-aquatic-102364466/" target="_blank">Chislock, M., Doster, E., Zitomer, R., &amp; Wilson, A. (n.d.). Eutrophication: Causes, Consequences, and Controls in Aquatic Ecosystems. Retrieved January 09, 2021, from https://www.nature.com/scitable/knowledge/library/eutrophication-causes-consequences-and-controls-in-aquatic-102364466/</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="info-water" role="tabpanel" aria-labelledby="tab-water">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <h3>Water Stress Primer</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <strong>What is the issue?</strong>
+                                                <br>
+                                                Water stress refers to the consumption of fresh water in regions where water is scarce.
+                                                This can put reduce supply of water needed for drinking, washing, or other important functions.
+                                                If clean water is not available, unsafe sources are often substituted.
+                                                <br>
+                                                <br>
+                                                <strong>Why does it matter?</strong>
+                                                <br>
+                                                <ul>
+                                                    <li>Increase in waterborne diseases</li>
+                                                    <li>Loss of ecosystems dependent on water resources</li>
+                                                </ul>
+                                                <strong>What's the scale of the issue?</strong>
+                                                <br>
+                                                Each year, the world uses approximately 4 quadrillion liters of fresh water.
+                                                Global food production is responsible for 70% of total fresh water withdrawals.
+                                                To provide a more useful measure of impact, this consumption is often weighted according to water scarcity.
+                                                Global food production is responsible for 90% of scarcity-weighted fresh water withdrawals.
+                                                At this level of water stress, at least 1.8 billion people  worldwide drink water contaminated with feces.
+                                                Contaminated drinking-water is estimated to cause 502,000 diarrhoeal deaths each year.
+                                                By 2025, half of the world’s population will be living in water-stressed areas.
+                                                Threat of global catastrophe or human extinction seems negligible.
+                                                
+                                                <br>
+                                                <br>
+                                                <strong>Sources:</strong>
+                                                <ul>
+                                                    <li><a href="https://science.sciencemag.org/content/360/6392/987" target="_blank">Poore, J., &amp; Nemecek, T. (2018). Reducing food’s environmental impacts through producers and consumers. Science, 360(6392), 987-992. doi:10.1126/science.aaq0216</a></li>
+                                                    <li><a href="https://www.afro.who.int/health-topics/water" target="_blank">Water. (n.d.). Retrieved January 09, 2021, from https://www.afro.who.int/health-topics/water</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                Acidification
+                                <br>
+                                <div style="background-color:  #CCCC00; padding: 10px;">
+                                    <input id = "weight-acid" type="text" value="1" oninput="matchInputs('weight-acid', 'weight-acid-alt'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Climate Change
+                                <br>
+                                <div style="background-color: #e41a1c; padding: 10px;">
+                                    <input id = "weight-climate" type="text" value="1" oninput="matchInputs('weight-climate', 'weight-climate-alt'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Eutrophication
+                                <br>
+                                <div style="background-color: #008000; padding: 10px;">
+                                    <input id = "weight-eutro" type="text" value="1" oninput="matchInputs('weight-eutro', 'weight-eutro-alt'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Water Stress
+                                <br>
+                                <div style="background-color: #377eb8; padding: 10px;">
+                                    <input id = "weight-water" type="text" value="1" oninput="matchInputs('weight-water', 'weight-water-alt'); updateResultsGraph();">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Research Primers - Suffering</h3>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                Besides environmental issues, food production also may cause animal suffering issues.
+                                Weights for these issues should be set using the same scale as in the Environmental section.
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <ul class="nav nav-tabs nav-fill" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-cows" data-toggle="tab" href="#info-cows" role="tab" aria-controls="info-cows" aria-selected="false">Cows</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-chicken" data-toggle="tab" href="#info-chicken" role="tab" aria-controls="info-chicken" aria-selected="false">Chickens</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="tab-fish" data-toggle="tab" href="#info-fish" role="tab" aria-controls="info-fish" aria-selected="true">Fish</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-pigs" data-toggle="tab" href="#info-pigs" role="tab" aria-controls="info-pigs" aria-selected="false">Pigs</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade" id="info-cows" role="tabpanel" aria-labelledby="tab-cows">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <h3>Cow Suffering Primer</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <strong>What is the evidence for moral consideration?</strong>
+                                                <br>
+                                                All attempts at understanding animal sentience and moral consideration are quite uncertain, at multiple philosophical junctures.
+                                                That being said, research has yielded potentially informative results:
+                                                <ul>
+                                                    <li>Cows are capable of rapid learning, short and long-term memory, spatial cognition, and more</li>
+                                                    <li>Cows have tactile receptors including pain, temperature, and pressure, and display well-documented pain and distress behaviors</li>
+                                                    <li>Cows show signs of distress when in social isolation. Mother cows and calves show signs of distress when separated</li>
+                                                    <li>Herds of cows organize into clustered matrilineal social structures, with lasting kinship and familiarity bonds</li>
+                                                </ul>
+                                                <strong>What are the details like?</strong>
+                                                <br>
+                                                Milk cows are repeatedly impregnated and separated from their calves.
+                                                Calves raised for veal are resticted to crates only slightly larger than their bodies and often restrained, because movement makes their meat less tender.
+                                                They are also given nutrient-poor feed deficient in minerals like iron, also for tenderness.
+                                                Calves raised for beef are kept in crowded conditions, and fed mostly grains, leading to digestive problems like ulcers.
+                                                They are also typically castrated, branded, de-horned, and have their tails cut.
+                                                These are only a few examples - the source links below have more details.
+                                                <br>
+                                                <br> 
+                                                <strong>What's the scale of the issue?</strong>
+                                                <br>
+                                                Each year, about 1.5 billion cows are farmed.
+                                                <br>
+                                                <br>
+                                                <strong>Sources:</strong>
+                                                <ul>
+                                                    <li><a href="https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/exploitation-cows-calves-steers/" target="_blank">Animal Ethics. (2020, September 28). Exploitation of cows, calves and steers. Retrieved January 12, 2021, from https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/exploitation-cows-calves-steers/</a></li>
+                                                    <li><a href="http://www.fao.org/faostat/en/#data/QA" target="_blank">Live Animals. (n.d.). Retrieved January 18, 2021, from http://www.fao.org/faostat/en/#data/QA</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="info-chicken" role="tabpanel" aria-labelledby="tab-chicken">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <h3>Chicken Suffering Primer</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <strong>What is the evidence for moral consideration?</strong>
+                                                <br>
+                                                All attempts at understanding animal sentience and moral consideration are quite uncertain, at multiple philosophical junctures.
+                                                That being said, research has yielded potentially informative results:
+                                                <ul>
+                                                    <li>Chickens have basic time perception, communication, self-control, transitive inference, and other cognitive abilities</li>
+                                                    <li>Chickens follow organized social structures and display consistently distinct individual behavioral traits and patterns</li>
+                                                    <li>Chickens display physiological and behavioral signs consistent with human emotions such as anxiety and relaxation</li>
+                                                    <li>Chickens emotional patterns are contagious between individuals, and hens display strong distress responses to chicks being disturbed</li>
+                                                </ul>
+                                                <strong>What are the details like?</strong>
+                                                <br>
+                                                Farmed chickens are raised in cramped conditions under artificial light, and display signs of stress such as fighting and cannibalism.
+                                                Egg-laying hens are often kept in "battery cages", which are dirty, about the size of a sheet of paper, and often produce a wide range of health problems.
+                                                Hens lay up to 300 eggs per year, a rate which causes a variety of diseases such as osteoporosis, hemhorraging, and fatty liver disease.
+                                                Chickens selected for meat production often have deformed legs, weakened immune systems, heart problems, and high rates of disease.
+                                                These are only a few examples - the source links below have more details.
+                                                <br>
+                                                <br> 
+                                                <strong>What's the scale of the issue?</strong>
+                                                <br>
+                                                Each year, about 30 billion chickens are farmed. 
+                                                <br>
+                                                <br>
+                                                <strong>Sources:</strong>
+                                                <ul>
+                                                    <li><a href="https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/chickens-hens/" target="_blank">Animal Ethics. (2020, December 14). Chickens and hens. Retrieved January 12, 2021, from https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/chickens-hens/</a></li>
+                                                    <li><a href="http://www.fao.org/faostat/en/#data/QA" target="_blank">Live Animals. (n.d.). Retrieved January 18, 2021, from http://www.fao.org/faostat/en/#data/QA</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade show active" id="info-fish" role="tabpanel" aria-labelledby="tab-fish">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <h3>Fish Suffering Primer</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <strong>What is the evidence for moral consideration?</strong>
+                                                <br>
+                                                All attempts at understanding animal sentience and moral consideration are quite uncertain, at multiple philosophical junctures.
+                                                That being said, research has yielded potentially informative results:
+                                                <ul>
+                                                    <li>Fish can learn from stimuli and modify future behavior</li>
+                                                    <li>Fish brains have a limbic system with a role in fear behavior, like the human limbic system</li>
+                                                    <li>Fish brains have dopamine-based reward systems that behave similar to human reward systems</li>
+                                                    <li>Fish brain architecture is compatible with modern hypotheses on the neural basis of consciousness</li>
+                                                </ul>
+                                                <strong>What are the details like?</strong>
+                                                <br>
+                                                In the process of wild catch, fish can be crushed, frozen, suffocated, bled to death, or killed with explosives.
+                                                In farming operations, fish are routinely taken out of water, exposed to harmful chemicals, malnourished, and kept in crowded and dirty water.
+                                                Other organisms like crustaceans and cephalopods are subject to similar treatment.
+                                                These are only a few examples - the source links below have more details.
+                                                <br>
+                                                <br> 
+                                                <strong>What's the scale of the issue?</strong>
+                                                <br>
+                                                Food production affects the most fish out of any kind of animal, but the true numbers are hard to estimate because reports are often in tons of fish, not in counts of individual organisms.
+                                                Every year 37-120 billion fish are farmed.
+                                                In addition, 1-3 trillion are caught, but this is largely "bycatch", which are quickly released but can be injured or killed.
+                                                <br>
+                                                <br>
+                                                <strong>Sources:</strong>
+                                                <ul>
+                                                    <li><a href="https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/fishing/" target="_blank">Animal Ethics. (2020, September 28). Fishing. Retrieved January 12, 2021, from https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/fishing/</a></li>
+                                                    <li><a href="https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/fish-farming/" target="_blank">Animal Ethics. (2020, November 02). Fish farming. Retrieved January 12, 2021, from https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/fish-farming/</a></li>
+                                                    <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0168159104000498" target="_blank">Chandroo, K., Duncan, I., &amp; Moccia, R. (2004). Can fish suffer?: Perspectives on sentience, pain, fear and stress. Applied Animal Behaviour Science, 86(3-4), 225-250. doi:10.1016/j.applanim.2004.02.004</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="info-pigs" role="tabpanel" aria-labelledby="tab-pigs">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <h3>Pigs Suffering Primer</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <strong>What is the evidence for moral consideration?</strong>
+                                                <br>
+                                                All attempts at understanding animal sentience and moral consideration are quite uncertain, at multiple philosophical junctures.
+                                                That being said, research has yielded potentially informative results:
+                                                <ul>
+                                                    <li>Pigs possess cognitive abilities like long-term memory, understanding symbolic language, as well as temporal and spatial abilities</li>
+                                                    <li>Pigs have social abilities like distinguishing between different human faces, social structuring, and tactical deception</li>
+                                                    <li>Pigs display behavioral patterns consistent with emotions like happiness (tail wagging) and distress (flattening ears)</li>
+                                                    <li>Pigs demonstrate consistent individual behavior patterns consistent with personality dimensions like aggression, sociability, and exporation</li>
+                                                </ul>
+                                                <strong>What are the details like?</strong>
+                                                <br>
+                                                Pregnant pigs are kept in stalls only slightly larger than their own bodies, leading to muscle, bone, joint, and cardiovascular problems.
+                                                Piglets are kept in un-ventilated and un-cleaned conditions, without temperature regulation and with high rates of disease.
+                                                Pigs display signs of psychological distress such as biting each other, fighting, and struggling when moved between stalls.
+                                                To prevent fighting have their teeth and nails clipped, and are also branded and castrated.
+                                                These are only a few examples - the source links below have more details.
+                                                <br>
+                                                <br> 
+                                                <strong>What's the scale of the issue?</strong>
+                                                <br>
+                                                Each year, about 1.3 billion pigs are farmed.
+                                                <br>
+                                                <br>
+                                                <strong>Sources:</strong>
+                                                <ul>
+                                                    <li><a href="https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/pig-farms/" target="_blank">Animal Ethics. (2020, November 04). Pig farms. Retrieved January 12, 2021, from https://www.animal-ethics.org/animal-exploitation-section/animals-used-food-introduction/pig-farms/</a></li>
+                                                    <li><a href="http://www.fao.org/faostat/en/#data/QA" target="_blank">Live Animals. (n.d.). Retrieved January 18, 2021, from http://www.fao.org/faostat/en/#data/QA</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                Cow Suffering
+                                <br>
+                                <div style="background-color: #8a6942; padding: 10px;">
+                                    <input id = "weight-cows" type="text" value="1" oninput="matchInputs('weight-cows', 'weight-cows-alt'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Chickens Suffering
+                                <br>
+                                <div style="background-color:  #ec8e00; padding: 10px;">
+                                    <input id = "weight-chicken" type="text" value="1" oninput="matchInputs('weight-chicken', 'weight-chicken-alt'); updateResultsGraph();">
+                                </div>  
+                            </div>
+                            <div class="col text-center">
+                                Fish Suffering
+                                <br>
+                                <div style="background-color: #4d0080; padding: 10px;">
+                                    <input id = "weight-fish" type="text" value="1" oninput="matchInputs('weight-fish', 'weight-fish-alt'); updateResultsGraph();">
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                Pigs Suffering
+                                <br>
+                                <div style="background-color: #a249a5; padding: 10px;">
+                                    <input id = "weight-pigs" type="text" value="1" oninput="matchInputs('weight-pigs', 'weight-pigs-alt'); updateResultsGraph();">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Methods</h3>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                The numbers displayed in the graph represent the relative impact per kilogram of food.
+                                To get these numbers, we have to run through a few calculations starting from our original data.
+                                First, we have to find the impact due to a kilogram of food for a specific issue.
+                                $$\frac{\text{impact}}{\text{kg food}} = \frac{\text{impact}}{\text{effector}}*\frac{\text{effector}}{\text{kg food}}$$
+                                To find out the amount of effector produced per kilogram of food, we use the results of empirical research.
+                                These figures include data like the amount of CO<sub>2</sub> produced per kilogram of soy milk, or the number of hours of cow suffering required per kilogram of beef.
+                                To find out how much of an impact there is per quantity of effector, we use user ratings.
+                                These figures come from dividing the number of "points" you allocate to an issue by the amount of effector required to produce that issue.
+                                For example, if a user rates acidification 100 points of impact and we know we only emit 1000kg of acidifying emissions per year, we know each kg of effector is responsible for 0.1 points of impact.
+                                Thus, our formula effectively becomes:
+                                $$\frac{\text{impact}}{\text{kg food}} = \frac{\text{your issue impact rating}}{\text{global effector total}}*\frac{\text{effector per kilogram data}}{\text{1 kg food}}$$
+                                Since we know all those numbers, we can calculate this!
+                                Next, we add up all the impacts across the issues for a given food.
+                                This tells us the total impact score for a kilogram of that food.
+                                The last step is to normalize the results - in other words, squish it down into the range 0-1.
+                                We have the numbers to use this method for Acidification, Climate, Eutrophication, Water, Fish Suffering, and Pig Suffering.
+                                <br><br>
+                                However, in some cases there are some extra steps we have to perform to get these numbers.
+                                Chickens and cows are used to produce multiple goods each, so we have to figure out how much of global total suffering is due to each product.
+                                Once we have that, we can just scale against the global chicken/cow population  to figure out the impact weight.
+                                While this adds a few extra steps, the methods are all still just multiplication.
+                                <br><br>
+                                Meat chickens:
+                                $$\frac{\text{impact}}{\text{kg chicken meat}}=\frac{\text{your issue impact rating}}{\text{total global days of suffering}}*\frac{\text{days of suffering}}{\text{meat chicken}}*\frac{\text{meat chickens}}{\text{year}}*\frac{\text{year}}{\text{kg chicken meat}}$$
+                                Egg chickens:
+                                $$\frac{\text{impact}}{\text{kg eggs}}=\frac{\text{your issue impact rating}}{\text{global total days of suffering}}*\frac{\text{days of suffering}}{\text{egg chickens}}*\frac{\text{egg chicken}}{\text{year}}*\frac{\text{year}}{\text{kg eggs}}$$
+                                Meat cows:
+                                $$\frac{\text{impact}}{\text{kg beef}}=\frac{\text{your issue impact rating}}{\text{total global days of suffering}}*\frac{\text{days of suffering}}{\text{meat cow}}*\frac{\text{meat cows}}{\text{year}}*\frac{\text{year}}{\text{kg beef}}$$
+                                Milk cows:
+                                $$\frac{\text{impact}}{\text{kg milk}}=\frac{\text{your issue impact rating}}{\text{total global days of suffering}}*\frac{\text{days of suffering}}{\text{milk cow}}*\frac{\text{milk cows}}{\text{year}}*\frac{\text{year}}{\text{kg milk}}$$
+                                Finally, for animal products made from other animal products, we can just straightforwardly multiply:
+                                $$\frac{\text{suffering}}{\text{kg secondary product}} = \frac{\text{suffering}}{\text{kg primary product}}*\frac{\text{kg primary product}}{\text{kg secondary product}}$$
+                                <br><br>
+                                For more information, see the Weaknesses and Data Sources sections below.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Weaknesses</h3>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <ul>
+                                    <li>
+                                        The method of determining impacts per kilogram described above is an approximation which assumes impact is linearly related to quantity of effector.
+                                        In reality, this is often not the case.
+                                        The first kilogram of CO<sub>2</sub> is practically harmless.
+                                        As you emit more though, climate change starts to become a serious concern, and each marginal kilogram is more impactful than the last.
+                                        Although it's a bit grim, once you reach the quintillionth kilogram, it becomes pretty harmless again - things are already about as bad as they can get.
+                                        In general, impacts seem likely to scale logistically, not linearly.
+                                        A linear approximation of marginal impact will usually be inaccurate.
+                                        However, since we don't know where in the logistic curve we are, it's a decent estimate.
+                                    </li>
+                                    <li>
+                                        For the sake of ease of use, several large groups of animals are lumped together.
+                                        The conditions of animals in farming operations are quite varied, and there is no sensible way to take an "average" degree of suffering.
+                                        The methods above assume that the intensity of suffering of beef/dairy cows, meat/egg chickens, and fish/crusteceans are equivalent.
+                                    </li>
+                                    <li>
+                                        In the long run, the impacts of food production may be dominated by hard-to-foresee effects on the future.
+                                        However, since such effects are hard to anticipate, they only introduce noise into a best guess based on predictable effects.
+                                        Such noise seems unlikely to systematically skew the results of an analysis like this, just make the conclusions less confident.
+                                    </li>
+                                    <li>
+                                        Impacts per kilogram are not a very intuitive measure of how impactful a given food is, since people don't tend to consume equal masses of different foods.
+                                        A typical serving of nuts, for example, may be far less massive than a typical serving of meat or vegetables.
+                                        However, other measures (impact per calorie, impact per gram protein, impact per serving) are not clearly better, since they can also be quite hard to interpret.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Data Sources</h3>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <ul>
+                                    <li>
+                                        CO<sub>2</sub>/food, acidification/food, eutrophication/food, water stress/food, total CO<sub>2</sub>, total acidification, total eutrophication, total water stress:
+                                        <br><a href="https://science.sciencemag.org/content/360/6392/987/tab-figures-data" target="_blank">Poore, J., &amp; Nemecek, T. (2018). Reducing food’s environmental impacts through producers and consumers. Science, 360(6392), 987-992. doi:10.1126/science.aaq0216</a>
+                                    </li>
+                                    <li>
+                                        Meat chickens/year, kg chicken meat/year, egg chickens/year, kg eggs/year meat cows/year, kg beef/year, milk cows/year, kg milk/year:
+                                        <br><a href="http://www.fao.org/faostat/en/?#data/QL" target="_blank">Livestock Primary. (n.d.). Retrieved February 09, 2021, from http://www.fao.org/faostat/en/#data/QL</a>
+                                    </li>
+                                    <li>
+                                        Total chicken suffering/year, total cow suffering/year:
+                                        <br><a href="http://www.fao.org/faostat/en/#data/QA" target="_blank">Live Animals. (n.d.). Retrieved January 18, 2021, from http://www.fao.org/faostat/en/#data/QA</a></li>
+                                    </li>
+                                    <li>
+                                        Days of suffering suffering/meat chicken:
+                                        <br><a href="https://www.uspoultry.org/faq/faq.cfm" target="_blank">Frequently asked questions, statistics, facts and information: Uspoultry.org. (n.d.). Retrieved February 09, 2021, from https://www.uspoultry.org/faq/faq.cfm</a>
+                                    </li>
+                                    <li>
+                                        Days of suffering suffering/meat cow:
+                                        <br><a href="https://www.humanesociety.org/sites/default/files/docs/hsus-report-welfare-animals-meat-egg-dairy-industry.pdf" target="_blank">Humane Society of the United States. (n.d.). An HSUS Report: The Welfare of Animals in the Meat, Egg, and Dairy Industries. Retrieved February 08, 2021, from https://www.humanesociety.org/sites/default/files/docs/hsus-report-welfare-animals-meat-egg-dairy-industry.pdf</a>
+                                    </li>
+                                    <li>
+                                        Kg milk/kg cheese:
+                                        <br><a href="https://www.dairysafe.vic.gov.au/consumers/dairy-foods/cheese" target="_blank">Cheese. (n.d.). Retrieved February 09, 2021, from https://www.dairysafe.vic.gov.au/consumers/dairy-foods/cheese</a>
+                                    </li>
+                                    <li>
+                                        Global total fish production:
+                                        <br><a href="https://datacatalog.worldbank.org/dataset/world-development-indicators" target="_blank">World development indicators. (2010, June 11). Retrieved February 06, 2021, from https://datacatalog.worldbank.org/dataset/world-development-indicators</a>
+                                    </li>
+                                    <li>
+                                        Global total pork production:
+                                        <br><a href="www.fao.org/faostat/en/#data/SP" target="_blank">Livestock Processed. (n.d.). Retrieved February 06, 2021, from http://www.fao.org/faostat/en/#data/SP</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+    
+    <!-- jQuery first, then Popper.js, then Bootstrap JS. Then my stuff -->
+    <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src='node_modules/d3/dist/d3.min.js'></script>
+    <script src='node_modules/mathjax/es5/tex-mml-chtml.js'></script>
+    <script src='js/scripts.js'></script>
+</body>
+</html>
