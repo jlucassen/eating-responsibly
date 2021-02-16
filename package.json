@@ -18,5 +18,8 @@
   },
   "devDependencies": {
     "lite-server": "^2.6.1"
+  },
+  "engines": {
+    "node": "14.7.0"
   }
 }
