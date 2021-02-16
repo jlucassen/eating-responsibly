@@ -1,10 +1,15 @@
 :root {
-    --main-color: #e8e8e8;
-    --offset-color: #d9d9d9;
+    --title-color: #dddddd;
+    --offset-color: #cccccc;
+    --title-text-color: #000000;
+    --offset-text-color: #000000;
 }
 
+
+
 .jumbotron {
-    background: var(--main-color);
+    background: var(--title-color);
+    color: var(--title-text-color);
 }
 
 .row {
@@ -12,7 +17,8 @@
 }
 
 .card-header {
-    background: var(--main-color);
+    background: var(--title-color);
+    color: var(--title-text-color);
 }
 
 input {
@@ -20,10 +26,11 @@ input {
 }
 
 .nav-tabs .nav-item .nav-link {
-    background: var(--main-color);
-    color: black;
+    background: var(--title-color);
+    color: var(--title-text-color);
   }
   
   .nav-tabs .nav-item .nav-link.active {
     background: var(--offset-color);
+    color: var(--offset-text-color);
   }

@@ -21,7 +21,7 @@ function getCsvData() {
     return new Promise(resolve => {
         setTimeout(() => {
           resolve(x);
-        }, 500);
+        }, 1000);
     });
 }
 
@@ -144,4 +144,4 @@ function matchInputs(first, second) {
 setupResultsGraph();
 setTimeout(function() {
     updateResultsGraph();
-  }, 500);
+  }, 1000);
