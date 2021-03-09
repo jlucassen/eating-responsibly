@@ -40,15 +40,29 @@
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">
+                    <h3 class="card-header">Overview</h3>
+                    <div class="card-body text-center">
+                        <h3>Global food production is a huge task,<br> with various harmful side effects we might want to avoid.</h3>
+                        <h1>•</h1>
+                        <h3>But since we still have to eat, the decision comes down to <br> choosing the least harmful foods we can.</h3>
+                        <h1>•</h1>
+                        <h3>Since different foods affect different issues, this decision relies on <br> assessing how important each of those issues is.</h3>
+                        <h1>•</h1>
+                        <h3>Based on that assessment, we can calculate weighted total impacts<br>and take a key step towards eating responsibly.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
                     <h3 class="card-header">Food Impacts & Issue Weights</h3>
                     <div class="card-body">
-                        
-                        <svg width='100%' height='600' id="results_graph"></svg>
                         <div class="row">
                             <div class="col">
                                 <strong>The issues below can each be assigned a "weight"</strong>, or impact score, with higher weights representing greater importance.
                                 For ease of comparison, these weights represent the impact of the entire issue.
-                                If issue A is given twice the score of issue B, that should mean ridding the world of issue A entirely is twice as good as getting rid of issue B entirely. 
+                                If issue A is given twice the score of issue B, that should mean reducing issue A by 50% is as good as ridding the world of issue B entirely.
                                 Feel free to use any scale you like, as long as it's consistent - the absolute numbers aren't important, only their relative magnitudes.
                             </div>
                         </div>
@@ -112,6 +126,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <strong>Weighted total impacts</strong> are shown on the graph below.
+                                Each bar represents the weighted total impact per kilogram of that food.
+                                Contributions to weighted total impact by each type of impact are color-coded by issue, matching the entry fields above.
+                                Foods are sorted by food group.
+                                More information on how these scores are calculated can be found below, in the Methods section.
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                <h3>Weighted Total Impacts Per Kilogram of Food (Normalized)</h3>
+                            </div>
+                        </div>
+                        <svg width='100%' height='600' id="results_graph"></svg>
                     </div>
                 </div>
             </div>
@@ -351,7 +380,7 @@
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">
-                    <h3 class="card-header">Research Primers - Suffering</h3>
+                    <h3 class="card-header">Research Primers - Animal Suffering</h3>
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
